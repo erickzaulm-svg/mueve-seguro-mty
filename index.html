@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mueve Seguro MTY | Movilidad y Conciencia Vial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navegación -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="logo">🚦 Mueve Seguro <span>MTY</span></a>
+      <nav class="nav-links">
+        <a href="#problemas">Problemas</a>
+        <a href="#conciencia">Conciencia</a>
+        <a href="#reportes" class="btn-nav">Reportar queja</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Portada / Hero -->
+  <section class="hero">
+    <div class="container hero-content">
+      <span class="badge">Área Metropolitana de Monterrey</span>
+      <h1>Moverse en Monterrey no debería costarte horas de vida.</h1>
+      <p>
+        Un espacio ciudadano para visibilizar la crisis de movilidad, compartir lo que vivimos diario en calles y rutas, y exigir traslados dignos y seguros.
+      </p>
+      <div class="hero-actions">
+        <a href="#reportes" class="btn-primary">Dejar mi reporte</a>
+        <a href="#problemas" class="btn-secondary">Ver problemáticas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Problemas Principales -->
+  <section id="problemas" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>¿Qué está fallando hoy?</h2>
+        <p>Los cuatro puntos críticos que afectan a millones de personas cada día en Nuevo León.</p>
+      </div>
+
+      <div class="grid-cards">
+        <article class="card">
+          <div class="card-icon">🚌</div>
+          <h3>Transporte público saturado</h3>
+          <p>Esperas de 40 a 90 minutos en horas pico, unidades llenas que no se detienen y falta de cobertura real en zonas periféricas.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🚗</div>
+          <h3>Tráfico colapsado</h3>
+          <p>Avenidas como Constitución, Morones Prieto, Garza Sada, Gonzalitos y Miguel Alemán detenidas a casi cualquier hora del día.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🚶</div>
+          <h3>Banquetas y peatones olvidados</h3>
+          <p>Banquetas rotas, obstruidas o inexistentes, puentes peatonales poco accesibles y cruces peligrosos para quienes caminan.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🕳️</div>
+          <h3>Baches e inseguridad vial</h3>
+          <p>Pavimento dañado que provoca accidentes, falta de señalización clara y poca cultura de respeto hacia ciclistas y peatones.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Conciencia -->
+  <section id="conciencia" class="section section-dark">
+    <div class="container">
+      <div class="section-header">
+        <h2>El costo real de no movernos bien</h2>
+        <p>La mala movilidad no es solo llegar tarde; impacta nuestra salud, economía y calidad de vida.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-number">+2 hrs</span>
+          <p>Tiempo promedio diario que muchas personas pierden en traslados de ida y vuelta.</p>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">Estrés</span>
+          <p>El tráfico crónico y la incertidumbre del camión elevan el agotamiento físico y mental.</p>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">Aire</span>
+          <p>Miles de autos detenidos en embotellamientos agravan la contaminación atmosférica en la ciudad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Muro de Quejas y Opiniones -->
+  <section id="reportes" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Muro Ciudadano de Quejas</h2>
+        <p>Cuéntanos qué pasa en tu ruta, colonia o avenida. Tu voz ayuda a visibilizar el problema.</p>
+      </div>
+
+      <div class="report-layout">
+        <!-- Formulario -->
+        <form id="complaintForm" class="complaint-form">
+          <h3>Publicar un reporte</h3>
+
+          <div class="form-group">
+            <label for="author">Tu nombre o apodo (opcional)</label>
+            <input type="text" id="author" placeholder="Ej. Carlos G. o déjalo vacío para Anónimo" maxlength="40" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="zone">Municipio / Zona</label>
+              <select id="zone" required>
+                <option value="Monterrey">Monterrey</option>
+                <option value="Apodaca">Apodaca</option>
+                <option value="Guadalupe">Guadalupe</option>
+                <option value="San Nicolás">San Nicolás</option>
+                <option value="Escobedo">Escobedo</option>
+                <option value="San Pedro">San Pedro</option>
+                <option value="Santa Catarina">Santa Catarina</option>
+                <option value="Juárez">Juárez</option>
+                <option value="García">García</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="category">Tipo de problema</label>
+              <select id="category" required>
+                <option value="Transporte Público">Transporte Público</option>
+                <option value="Tráfico">Tráfico</option>
+                <option value="Baches / Calles">Baches / Calles</option>
+                <option value="Peatones / Banquetas">Peatones / Banquetas</option>
+                <option value="Cultura Vial">Cultura Vial</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">¿Cuál es tu queja u opinión?</label>
+            <textarea id="message" rows="4" required maxlength="350" placeholder="Ej. Llevo 50 minutos esperando el camión en Miguel Alemán y los que pasan van llenos..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary full-width">Publicar queja</button>
+        </form>
+
+        <!-- Lista de reportes -->
+        <div class="feed-container">
+          <div class="filters" id="filterButtons">
+            <button class="filter-btn active" data-filter="Todos">Todos</button>
+            <button class="filter-btn" data-filter="Transporte Público">Transporte</button>
+            <button class="filter-btn" data-filter="Tráfico">Tráfico</button>
+            <button class="filter-btn" data-filter="Baches / Calles">Baches</button>
+            <button class="filter-btn" data-filter="Peatones / Banquetas">Peatones</button>
+            <button class="filter-btn" data-filter="Cultura Vial">Cultura Vial</button>
+          </div>
+
+          <div id="complaintsList" class="complaints-list">
+            <!-- Aquí se insertan los comentarios con JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p><strong>Mueve Seguro MTY</strong> — Iniciativa de parte de alumnos de la FCC de conciencia ciudadana sobre la movilidad en Nuevo León.</p>
+      <p class="footer-note">Hecho para informar, opinar y exigir mejores traslados.</p>
+      <p class="footer-note">Derechos reservados</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

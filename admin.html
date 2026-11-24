@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin | Mueve Seguro MTY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* Pantalla de acceso */
+    .login-box {
+      max-width: 380px;
+      margin: 12vh auto 0;
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    .login-box h1 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .login-box p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1.4rem; }
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.75rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .btn-amber { background: #f59e0b; color: #0f172a; }
+    .btn-amber:hover { background: #d97706; }
+    .error-msg { color: #f87171; font-size: 0.85rem; margin-top: 0.7rem; min-height: 1.2rem; }
+
+    /* Panel */
+    .hidden { display: none; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #334155;
+    }
+    .topbar h1 { font-size: 1.4rem; }
+    .topbar span { color: #f59e0b; }
+    .topbar-actions { display: flex; gap: 0.7rem; align-items: center; }
+    .badge-count {
+      background: #1e293b;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      border: 1px solid #334155;
+    }
+    .link-back {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .link-back:hover { color: #fff; }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .item {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .item-meta {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 0.45rem;
+    }
+    .item-meta strong { color: #fff; font-size: 0.95rem; margin-right: 0.5rem; }
+    .item-text { color: #e2e8f0; font-size: 0.95rem; line-height: 1.5; }
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-delete:hover { background: #ef4444; color: #fff; }
+
+    @media (max-width: 600px) {
+      .item { flex-direction: column; }
+      .btn-delete { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Acceso -->
+  <div id="loginBox" class="login-box">
+    <h1>🔒 Panel de Moderación</h1>
+    <p>Mueve Seguro MTY</p>
+    <form id="loginForm">
+      <input type="password" id="passInput" placeholder="Ingresa la clave de admin" required />
+      <button type="submit" class="btn btn-amber">Entrar</button>
+    </form>
+    <div id="errorMsg" class="error-msg"></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="container hidden">
+    <div class="topbar">
+      <h1>🛠️ Moderación <span>Mueve Seguro MTY</span></h1>
+      <div class="topbar-actions">
+        <span id="totalCount" class="badge-count">0 reportes</span>
+        <a href="index.html" class="link-back">← Volver al sitio</a>
+      </div>
+    </div>
+
+    <input type="text" id="searchInput" class="search-input" placeholder="Buscar por texto, nombre, municipio o categoría..." />
+    <div id="adminList" class="list"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      onSnapshot,
+      query,
+      orderBy,
+      doc,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // 👇 CAMBIA ESTA CLAVE POR LA QUE TÚ QUIERAS
+    const ADMIN_PASS = "mty2026";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC-VjZUADjcyhkIkjbfrawWPH8x5yoSpRg",
+      authDomain: "mueve-seguro-mty.firebaseapp.com",
+      projectId: "mueve-seguro-mty",
+      storageBucket: "mueve-seguro-mty.firebasestorage.app",
+      messagingSenderId: "725703293896",
+      appId: "1:725703293896:web:735e1ac3146d7a9702defd",
+      measurementId: "G-YLH38FYP20"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const reportsCollection = collection(db, "reportes");
+
+    const loginBox = document.getElementById("loginBox");
+    const dashboard = document.getElementById("dashboard");
+    const loginForm = document.getElementById("loginForm");
+    const passInput = document.getElementById("passInput");
+    const errorMsg = document.getElementById("errorMsg");
+    const adminList = document.getElementById("adminList");
+    const totalCount = document.getElementById("totalCount");
+    const searchInput = document.getElementById("searchInput");
+
+    let allReports = [];
+
+    function escapeHTML(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderAdminList() {
+      const term = searchInput.value.toLowerCase().trim();
+      const filtered = allReports.filter(r =>
+        (r.message || "").toLowerCase().includes(term) ||
+        (r.author || "").toLowerCase().includes(term) ||
+        (r.zone || "").toLowerCase().includes(term) ||
+        (r.category || "").toLowerCase().includes(term)
+      );
+
+      totalCount.textContent = `${allReports.length} reporte${allReports.length === 1 ? "" : "s"}`;
+
+      if (filtered.length === 0) {
+        adminList.innerHTML = `<p style="color:#94a3b8; text-align:center; padding:2rem;">No se encontraron reportes.</p>`;
+        return;
+      }
+
+      adminList.innerHTML = filtered.map(r => `
+        <div class="item">
+          <div>
+            <div class="item-meta">
+              <strong>${escapeHTML(r.author || "Anónimo")}</strong>
+              📍 ${escapeHTML(r.zone || "")} · ${escapeHTML(r.category || "")} · 👍 ${r.votes || 0}
+            </div>
+            <p class="item-text">${escapeHTML(r.message || "")}</p>
+          </div>
+          <button class="btn-delete" onclick="deleteReport('${r.id}')">🗑️ Eliminar</button>
+        </div>
+      `).join("");
+    }
+
+    window.deleteReport = async function (id) {
+      if (!confirm("¿Seguro que quieres eliminar este comentario permanentemente?")) return;
+      try {
+        await deleteDoc(doc(db, "reportes", id));
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo eliminar. Revisa las reglas de Firestore.");
+      }
+    };
+
+    function startListening() {
+      const q = query(reportsCollection, orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        allReports = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAdminList();
+      });
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (passInput.value === ADMIN_PASS) {
+        loginBox.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        startListening();
+      } else {
+        errorMsg.textContent = "Clave incorrecta.";
+      }
+    });
+
+    searchInput.addEventListener("input", renderAdminList);
+  </script>
+</body>
+</html>
